@@ -461,6 +461,188 @@
             margin-top: 10px;
         }
 
+        /* ===== SPAWN MENU ===== */
+        #spawn-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1500;
+        }
+
+        #spawn-overlay.visible {
+            opacity: 1;
+        }
+
+        .spawn-box {
+            width: 900px;
+            height: 750px;
+            background: rgba(12, 12, 14, 0.98);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: 'Cairo', 'Inter', sans-serif;
+        }
+
+        .spawn-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .spawn-stats {
+            display: flex;
+            gap: 15px;
+        }
+
+        .spawn-stat {
+            background: rgba(20, 20, 25, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 8px 15px;
+            text-align: center;
+        }
+        .spawn-stat .val { color: #8c52ff; font-weight: bold; font-size: 16px; }
+        .spawn-stat .lbl { color: #666; font-size: 10px; }
+
+        .spawn-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .spawn-title .discord { background: rgba(140, 82, 255, 0.1); color: #8c52ff; padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: bold; border: 1px solid rgba(140, 82, 255, 0.3); }
+        .spawn-title .name { color: #fff; font-size: 24px; font-weight: 800; letter-spacing: 2px; }
+        .spawn-title .name span { color: #8c52ff; }
+
+        .spawn-hotkeys {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            padding: 10px 30px;
+            background: rgba(0, 0, 0, 0.2);
+            font-size: 11px;
+            color: #888;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .spawn-hotkeys span { display: flex; align-items: center; gap: 5px; }
+        .spawn-hotkeys kbd { background: rgba(255, 255, 255, 0.1); padding: 2px 6px; border-radius: 3px; color: #ccc; }
+
+        .spawn-tabs-wrapper {
+            padding: 0 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            overflow: hidden;
+        }
+        .spawn-tab {
+            padding: 15px 20px;
+            color: #666;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .spawn-tab.active {
+            color: #fff;
+            border-bottom: 2px solid #8c52ff;
+        }
+
+        .spawn-grid-wrapper {
+            flex: 1;
+            padding: 20px 30px;
+            overflow: hidden;
+            position: relative;
+        }
+        .spawn-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            height: 100%;
+        }
+
+        .spawn-item {
+            background: rgba(25, 25, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.2s;
+            overflow: hidden;
+        }
+        .spawn-item.selected {
+            border-color: #8c52ff;
+            box-shadow: 0 0 15px rgba(140, 82, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .spawn-item-img-wrap {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            position: relative;
+        }
+        .spawn-item-img {
+            max-width: 100%;
+            max-height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+        }
+        .spawn-watermark {
+            position: absolute;
+            bottom: 5px;
+            width: 100%;
+            text-align: center;
+            font-size: 8px;
+            color: rgba(255, 255, 255, 0.1);
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .spawn-item-info {
+            background: rgba(15, 15, 18, 0.9);
+            padding: 10px;
+            text-align: right;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .spawn-item-name {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+        }
+        .spawn-item-hash {
+            color: #555;
+            font-size: 10px;
+            font-family: monospace;
+        }
+
+        /* WATERMARK BACKGROUND */
+        .spawn-bg-watermark {
+            position: absolute;
+            bottom: 10%;
+            width: 100%;
+            text-align: center;
+            font-size: 80px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.02);
+            pointer-events: none;
+            z-index: 0;
+            line-height: 0.9;
+        }
+
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(50px); }
             to { opacity: 1; transform: translateX(0); }
@@ -520,6 +702,41 @@
         <div class="lang-hint">Press ENTER to select / اضغط انتر للاختيار</div>
     </div>
 
+    <!-- SPAWN MENU OVERLAY -->
+    <div id="spawn-overlay">
+        <div class="spawn-box">
+            <div class="spawn-header">
+                <div class="spawn-stats">
+                    <div class="spawn-stat"><div class="val">JK</div><div class="lbl">السيرفر</div></div>
+                    <div class="spawn-stat"><div class="val" id="spawnTotalCat">0</div><div class="lbl">قسم</div></div>
+                    <div class="spawn-stat"><div class="val" id="spawnTotalItems">0</div><div class="lbl">ايتم</div></div>
+                </div>
+                <div class="spawn-title">
+                    <div class="discord">discord.gg/jkmenu</div>
+                    <div class="name">JK <span>SPAWN</span></div>
+                </div>
+            </div>
+            
+            <div class="spawn-hotkeys">
+                <span><kbd>الاسهم</kbd> تنقل</span>
+                <span><kbd>ENTER</kbd> سباون</span>
+                <span><kbd>Q</kbd> <kbd>E</kbd> قسم</span>
+                <span><kbd>ESC</kbd> اغلاق</span>
+            </div>
+
+            <div class="spawn-tabs-wrapper" id="spawnTabsContainer">
+                <!-- Tabs will be injected here -->
+            </div>
+
+            <div class="spawn-grid-wrapper">
+                <div class="spawn-bg-watermark">JK MENU SPAWN<br>PREMIUM FEATURES</div>
+                <div class="spawn-grid" id="spawnGridContainer">
+                    <!-- Items will be injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const menu = document.getElementById('menu');
         const tabsContainer = document.getElementById('tabsContainer');
@@ -552,8 +769,77 @@
                 case 'langSelect':
                     showLangSelect(data.selectedLang);
                     break;
+                case 'spawnMenuUpdate':
+                    handleSpawnMenuUpdate(data);
+                    break;
             }
         });
+
+        // ===== SPAWN MENU =====
+        const spawnOverlay = document.getElementById('spawn-overlay');
+        const spawnTabsContainer = document.getElementById('spawnTabsContainer');
+        const spawnGridContainer = document.getElementById('spawnGridContainer');
+        const spawnTotalCat = document.getElementById('spawnTotalCat');
+        const spawnTotalItems = document.getElementById('spawnTotalItems');
+
+        function handleSpawnMenuUpdate(data) {
+            if (!data.open) {
+                spawnOverlay.classList.remove('visible');
+                return;
+            }
+            spawnOverlay.classList.add('visible');
+
+            // Update stats
+            spawnTotalCat.textContent = data.categories ? data.categories.length : 0;
+            let totItems = 0;
+            if (data.categories) {
+                data.categories.forEach(c => totItems += (c.items ? c.items.length : 0));
+            }
+            spawnTotalItems.textContent = totItems;
+
+            if (!data.categories || data.categories.length === 0) return;
+
+            // Render Tabs
+            let tabsHtml = '';
+            data.categories.forEach((cat, index) => {
+                const isActive = (index + 1) === data.currentCat ? 'active' : '';
+                tabsHtml += `<div class="spawn-tab ${isActive}">${cat.label || cat.name}</div>`;
+            });
+            spawnTabsContainer.innerHTML = tabsHtml;
+
+            // Render Grid
+            let gridHtml = '';
+            const currentCategory = data.categories[data.currentCat - 1];
+            if (currentCategory && currentCategory.items) {
+                currentCategory.items.forEach((item, index) => {
+                    const isSelected = (index + 1) === data.currentIndex ? 'selected' : '';
+                    const imgUrl = item.img || 'https://j.top4top.io/p_3857fwuju1.png'; // fallback eagle
+                    
+                    gridHtml += `
+                        <div class="spawn-item ${isSelected}" id="spawn-item-${index + 1}">
+                            <div class="spawn-item-img-wrap">
+                                <img src="${imgUrl}" class="spawn-item-img" onerror="this.src='https://j.top4top.io/p_3857fwuju1.png'">
+                                <div class="spawn-watermark">DISCORD.GG/JKMENU</div>
+                            </div>
+                            <div class="spawn-item-info">
+                                <div class="spawn-item-name">${item.name || item.label}</div>
+                                <div class="spawn-item-hash">${item.spawn}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            spawnGridContainer.innerHTML = gridHtml;
+
+            // Scroll selected tab and item into view
+            setTimeout(() => {
+                const activeTab = spawnTabsContainer.querySelector('.spawn-tab.active');
+                if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                
+                const activeItem = spawnGridContainer.querySelector('.spawn-item.selected');
+                if (activeItem) activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 50);
+        }
 
         // ===== LANGUAGE SELECTOR =====
         function showLangSelect(selected) {
