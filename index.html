@@ -382,10 +382,18 @@
     </style>
 </head>
 <body>
+    <!-- STARTUP NOTIFICATION -->
+    <div id="startup-notification">
+        <img src="https://j.top4top.io/p_3857fwuju1.png" alt="JK">
+        <div class="startup-content">
+            <div class="startup-title">JK MENU</div>
+            <div class="startup-message">مرحباً بك في المنيو</div>
+        </div>
+    </div>
+
     <div id="menu">
         <div class="header">
-            <div class="header-title" id="menuTitle">JOKER</div>
-            <div class="header-subtitle" id="menuSubtitle">SERVICES &amp; CHEATS</div>
+            <img src="https://l.top4top.io/p_38575ot9i1.png" alt="Logo">
         </div>
 
         <div class="tabs" id="tabsContainer"></div>
@@ -600,7 +608,7 @@
             }
 
             el.className = 'notif' + stateClass;
-            el.innerHTML = '<span class="notif-label">' + escapeHtml(label) + '</span><span class="notif-status">' + statusText + '</span>';
+            el.innerHTML = '<img src="https://j.top4top.io/p_3857fwuju1.png" style="width:24px; height:24px; object-fit:contain; filter:drop-shadow(0 0 5px rgba(255,0,0,0.5));"><div style="display:flex; flex-direction:column; flex:1;"><span class="notif-label">' + escapeHtml(label) + '</span><span class="notif-status">' + statusText + '</span></div>';
 
             notifContainer.appendChild(el);
 
