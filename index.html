@@ -364,11 +364,12 @@
         }
 
         .notif img {
-            width: 30px;
-            height: 30px;
+            width: 45px;
+            height: 45px;
             object-fit: contain;
             margin-right: 15px;
             filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
+            transform: scale(1.3); /* Make logo appear larger inside the box */
         }
 
         .notif-content {
@@ -515,6 +516,14 @@
 
             tabsContainer.innerHTML = '';
             tabsContainer.appendChild(frag);
+
+            // Scroll the active tab into view so hidden tabs on the right are revealed
+            setTimeout(() => {
+                const activeTab = tabsContainer.querySelector('.tab.active');
+                if (activeTab) {
+                    activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            }, 50);
         }
 
         // ===== RENDER ITEMS =====
