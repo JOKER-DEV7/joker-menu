@@ -21,8 +21,8 @@
 
         #menu {
             position: absolute;
-            top: 20%;
-            left: 10%; /* Not glued to the left */
+            top: 15%;
+            left: 20px; /* Moved to the left side */
             width: 380px; /* Medium size */
             height: 650px;
             display: flex;
@@ -418,8 +418,6 @@
         const tabsContainer = document.getElementById('tabsContainer');
         const itemsContainer = document.getElementById('itemsContainer');
         const footerCounter = document.getElementById('footerCounter');
-        const menuTitle = document.getElementById('menuTitle');
-        const menuSubtitle = document.getElementById('menuSubtitle');
         const scrollThumb = document.getElementById('scrollThumb');
         const notifContainer = document.getElementById('notifContainer');
 
@@ -462,13 +460,6 @@
             }
 
             menu.classList.add('visible');
-
-            if (data.menuName) {
-                menuTitle.textContent = data.menuName;
-            }
-            if (data.subtitle) {
-                menuSubtitle.textContent = data.subtitle;
-            }
 
             renderTabs(data.tabs);
             renderItems(data.items);
