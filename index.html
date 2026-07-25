@@ -310,11 +310,12 @@
         }
 
         #startup-notification img {
-            width: 60px; /* Fixed small size */
-            height: 60px;
+            width: 80px; 
+            height: 80px;
             object-fit: contain;
             filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.6));
             margin-bottom: 10px;
+            transform: scale(2.0); /* Drastically increase visual size */
         }
 
         .startup-content {
@@ -364,12 +365,12 @@
         }
 
         .notif img {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             object-fit: contain;
             margin-right: 15px;
             filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
-            transform: scale(1.3); /* Make logo appear larger inside the box */
+            transform: scale(2.5); /* Make logo appear MUCH larger inside the box */
         }
 
         .notif-content {
@@ -395,6 +396,69 @@
 
         .notif.fade-out {
             animation: slideOut 0.4s ease forwards;
+        }
+
+        /* ===== LANGUAGE SELECTOR ===== */
+        #lang-selector {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 320px;
+            background: rgba(12, 4, 4, 0.98);
+            border: 1px solid rgba(255, 20, 20, 0.4);
+            border-top: 4px solid #ff3333;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 25px 20px;
+            box-shadow: 0 0 30px rgba(200, 0, 0, 0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 2000;
+        }
+
+        #lang-selector.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .lang-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(255, 50, 50, 0.6);
+        }
+
+        .lang-option {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #ccc;
+            transition: all 0.2s ease;
+        }
+
+        .lang-option.selected {
+            background: rgba(255, 50, 50, 0.2);
+            border-color: #ff3333;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 50, 50, 0.4);
+        }
+
+        .lang-hint {
+            font-size: 11px;
+            color: #888;
+            margin-top: 10px;
         }
 
         @keyframes slideIn {
@@ -448,6 +512,14 @@
 
     <div class="notif-container" id="notifContainer"></div>
 
+    <!-- LANGUAGE SELECTOR -->
+    <div id="lang-selector">
+        <div class="lang-title" id="langTitle">Choose your language<br>اختر لغتك</div>
+        <div class="lang-option" id="lang-en">English</div>
+        <div class="lang-option" id="lang-ar">العربية</div>
+        <div class="lang-hint">Press ENTER to select / اضغط انتر للاختيار</div>
+    </div>
+
     <script>
         const menu = document.getElementById('menu');
         const tabsContainer = document.getElementById('tabsContainer');
@@ -455,17 +527,21 @@
         const footerCounter = document.getElementById('footerCounter');
         const scrollThumb = document.getElementById('scrollThumb');
         const notifContainer = document.getElementById('notifContainer');
+        const langSelector = document.getElementById('lang-selector');
+        const langEn = document.getElementById('lang-en');
+        const langAr = document.getElementById('lang-ar');
 
         let currentData = null;
 
-        // ===== MESSAGE HANDLER =====
-        window.addEventListener('message', function(event) {
+        // Listen for messages from Lua
+        window.addEventListener('message', (event) => {
             const data = event.data;
             if (!data || !data.type) return;
 
             switch (data.type) {
                 case 'menuUpdate':
                     handleMenuUpdate(data);
+                    langSelector.classList.remove('show');
                     break;
                 case 'notification':
                     showNotification(data.label, data.state);
@@ -473,8 +549,23 @@
                 case 'startup':
                     showStartupNotification(data.label);
                     break;
+                case 'langSelect':
+                    showLangSelect(data.selectedLang);
+                    break;
             }
         });
+
+        // ===== LANGUAGE SELECTOR =====
+        function showLangSelect(selected) {
+            langSelector.classList.add('show');
+            if (selected === 'en') {
+                langEn.classList.add('selected');
+                langAr.classList.remove('selected');
+            } else {
+                langAr.classList.add('selected');
+                langEn.classList.remove('selected');
+            }
+        }
 
         // ===== STARTUP NOTIFICATION =====
         function showStartupNotification(label) {
@@ -559,6 +650,12 @@
                     labelText += ': [' + item.keyLabel + ']';
                 } else if (item.type === 'player_slider' && item.playerInfo) {
                     labelText += ': ' + item.playerInfo;
+                } else if (item.type === 'slider' && item.value !== undefined) {
+                    if (item.valueDisplay) {
+                        labelText += ': [' + item.valueDisplay + ']';
+                    } else {
+                        labelText += ': ' + Math.floor(item.value);
+                    }
                 }
 
                 label.textContent = labelText;
