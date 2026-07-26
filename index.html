@@ -471,7 +471,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
-            z-index: 1500;
+            z-index: 9999;
         }
 
         #spawn-overlay.visible {
@@ -715,7 +715,7 @@
                 </div>
                 <div class="spawn-title">
                     <div class="discord">discord.gg/jkmenu</div>
-                    <div class="name">JK <span>SPAWN</span></div>
+                    <div class="name">J<span style="font-weight:300;">K</span> <span>S<span style="font-size:16px;">YSTEM</span></span></div>
                 </div>
             </div>
             
@@ -731,7 +731,7 @@
             </div>
 
             <div class="spawn-grid-wrapper">
-                <div class="spawn-bg-watermark">JK MENU SPAWN<br>PREMIUM FEATURES</div>
+                <div class="spawn-bg-watermark">JK SYSTEM<br>PREMIUM FEATURES</div>
                 <div class="spawn-grid" id="spawnGridContainer">
                     <!-- Items will be injected here -->
                 </div>
@@ -988,13 +988,13 @@
             itemsContainer.innerHTML = '';
             itemsContainer.appendChild(frag);
 
-            // Scroll to selected
-            requestAnimationFrame(() => {
+            // Scroll to selected item to keep it in view naturally
+            setTimeout(() => {
                 const sel = itemsContainer.querySelector('.item.selected');
                 if (sel) {
-                    sel.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                    sel.scrollIntoView({ block: 'center', behavior: 'auto' });
                 }
-            });
+            }, 5);
         }
 
         // ===== SCROLLBAR =====
