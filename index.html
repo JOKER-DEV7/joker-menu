@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="ar" dir="ltr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=600, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <title>Joker Menu</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             background: rgba(0, 0, 0, 0);
@@ -23,11 +30,13 @@
         #menu {
             position: absolute;
             top: 15%;
-            left: 50px; /* Shifted right slightly to make room for scrollbar */
+            left: 50px;
+            /* Shifted right slightly to make room for scrollbar */
             width: 400px;
             display: flex;
             flex-direction: column;
-            gap: 8px; /* Gap between separate blocks */
+            gap: 8px;
+            /* Gap between separate blocks */
             opacity: 0;
             transform: translateX(-20px);
             transition: opacity 0.3s ease, transform 0.3s ease;
@@ -68,15 +77,19 @@
         .header::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, rgba(200,0,0,0.1), rgba(0,0,0,0.8));
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(200, 0, 0, 0.1), rgba(0, 0, 0, 0.8));
             pointer-events: none;
         }
 
         .header img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Make it fill like a banner */
+            object-fit: cover;
+            /* Make it fill like a banner */
             opacity: 0.8;
             filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
         }
@@ -89,7 +102,10 @@
             overflow-x: auto;
             scrollbar-width: none;
         }
-        .tabs::-webkit-scrollbar { display: none; }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
 
         .tab {
             flex: 1 0 auto;
@@ -104,6 +120,7 @@
             transition: all 0.2s;
             border-bottom: 3px solid transparent;
         }
+
         .tab.active {
             color: #fff;
             background: linear-gradient(to top, rgba(255, 20, 20, 0.2), transparent);
@@ -124,13 +141,17 @@
             scrollbar-width: none;
             padding: 5px 0;
         }
-        .items-container::-webkit-scrollbar { display: none; }
+
+        .items-container::-webkit-scrollbar {
+            display: none;
+        }
 
         /* External Scrollbar */
         .scroll-indicator {
             position: absolute;
             top: 0;
-            left: -15px; /* Detached to the left */
+            left: -15px;
+            /* Detached to the left */
             width: 6px;
             height: 100%;
             background: rgba(10, 2, 2, 0.8);
@@ -164,6 +185,7 @@
             color: rgba(255, 255, 255, 0.6);
             text-transform: uppercase;
         }
+
         .footer-counter {
             font-size: 12px;
             font-weight: 600;
@@ -201,6 +223,7 @@
             text-overflow: ellipsis;
             flex: 1;
         }
+
         .item.selected .item-label {
             color: #fff;
             font-weight: 600;
@@ -209,11 +232,12 @@
 
         /* Submenu arrow */
         .item-arrow {
-            color: rgba(255,255,255,0.3);
+            color: rgba(255, 255, 255, 0.3);
             font-size: 14px;
             font-weight: bold;
             margin-left: 10px;
         }
+
         .item.selected .item-arrow {
             color: #ff3333;
             text-shadow: 0 0 5px rgba(255, 50, 50, 0.6);
@@ -235,12 +259,14 @@
             position: relative;
             overflow: visible;
         }
+
         .slider-fill {
             height: 100%;
             background: #fff;
             border-radius: 2px;
             transition: width 0.1s ease;
         }
+
         .slider-knob {
             width: 12px;
             height: 12px;
@@ -251,8 +277,15 @@
             transform: translate(-50%, -50%);
             transition: left 0.1s ease;
         }
-        .item.selected .slider-fill { background: #ff3333; }
-        .item.selected .slider-knob { background: #ff3333; box-shadow: 0 0 8px rgba(255,50,50,0.6); }
+
+        .item.selected .slider-fill {
+            background: #ff3333;
+        }
+
+        .item.selected .slider-knob {
+            background: #ff3333;
+            box-shadow: 0 0 8px rgba(255, 50, 50, 0.6);
+        }
 
         /* Toggle */
         .toggle {
@@ -263,16 +296,24 @@
             position: relative;
             transition: all 0.2s;
         }
+
         .toggle::after {
             content: '';
             position: absolute;
-            top: 2px; left: 2px;
-            width: 10px; height: 10px;
+            top: 2px;
+            left: 2px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: #aaa;
             transition: all 0.2s;
         }
-        .toggle.on { background: rgba(255, 50, 50, 0.3); border: 1px solid #ff3333; }
+
+        .toggle.on {
+            background: rgba(255, 50, 50, 0.3);
+            border: 1px solid #ff3333;
+        }
+
         .toggle.on::after {
             left: 14px;
             background: #ff3333;
@@ -285,7 +326,10 @@
             min-width: 35px;
             text-align: right;
         }
-        .item.selected .item-value { color: #ffcccc; }
+
+        .item.selected .item-value {
+            color: #ffcccc;
+        }
 
         /* ===== STARTUP NOTIFICATION ===== */
         #startup-notification {
@@ -293,12 +337,14 @@
             top: 30px;
             right: -400px;
             width: 320px;
-            background: rgba(12, 4, 4, 0.98); /* Solid color matching menu */
+            background: rgba(12, 4, 4, 0.98);
+            /* Solid color matching menu */
             border: 1px solid rgba(255, 20, 20, 0.4);
             border-left: 4px solid #ff3333;
             border-radius: 6px;
             display: flex;
-            flex-direction: column; /* Centered layout */
+            flex-direction: column;
+            /* Centered layout */
             align-items: center;
             justify-content: center;
             padding: 20px;
@@ -314,12 +360,13 @@
         }
 
         #startup-notification img {
-            width: 80px; 
+            width: 80px;
             height: 80px;
             object-fit: contain;
             filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.6));
             margin-bottom: 10px;
-            transform: scale(2.0); /* Drastically increase visual size */
+            transform: scale(2.0);
+            /* Drastically increase visual size */
         }
 
         .startup-content {
@@ -354,14 +401,16 @@
         }
 
         .notif {
-            background: rgba(12, 4, 4, 0.98); /* Solid matching color */
+            background: rgba(12, 4, 4, 0.98);
+            /* Solid matching color */
             border: 1px solid rgba(255, 20, 20, 0.3);
             border-left: 4px solid #ff3333;
             border-radius: 6px;
             width: 280px;
             padding: 12px 15px;
             display: flex;
-            align-items: center; /* Center horizontally */
+            align-items: center;
+            /* Center horizontally */
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             animation: slideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
             color: #fff;
@@ -374,7 +423,8 @@
             object-fit: contain;
             margin-right: 15px;
             filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
-            transform: scale(2.5); /* Make logo appear MUCH larger inside the box */
+            transform: scale(2.5);
+            /* Make logo appear MUCH larger inside the box */
         }
 
         .notif-content {
@@ -395,8 +445,13 @@
             margin-top: 2px;
         }
 
-        .notif.state-on .notif-status { color: #4CAF50; }
-        .notif.state-off .notif-status { color: #F44336; }
+        .notif.state-on .notif-status {
+            color: #4CAF50;
+        }
+
+        .notif.state-off .notif-status {
+            color: #F44336;
+        }
 
         .notif.fade-out {
             animation: slideOut 0.4s ease forwards;
@@ -468,7 +523,10 @@
         /* ===== SPAWN MENU ===== */
         #spawn-overlay {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -516,17 +574,44 @@
             padding: 8px 15px;
             text-align: center;
         }
-        .spawn-stat .val { color: #ff3333; font-weight: bold; font-size: 16px; }
-        .spawn-stat .lbl { color: #666; font-size: 10px; }
+
+        .spawn-stat .val {
+            color: #ff3333;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .spawn-stat .lbl {
+            color: #666;
+            font-size: 10px;
+        }
 
         .spawn-title {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        .spawn-title .discord { background: rgba(255, 50, 50, 0.1); color: #ff3333; padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: bold; border: 1px solid rgba(255, 50, 50, 0.3); }
-        .spawn-title .name { color: #fff; font-size: 24px; font-weight: 800; letter-spacing: 2px; }
-        .spawn-title .name span { color: #ff3333; }
+
+        .spawn-title .discord {
+            background: rgba(255, 50, 50, 0.1);
+            color: #ff3333;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid rgba(255, 50, 50, 0.3);
+        }
+
+        .spawn-title .name {
+            color: #fff;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .spawn-title .name span {
+            color: #ff3333;
+        }
 
         .spawn-hotkeys {
             display: flex;
@@ -538,8 +623,19 @@
             color: #888;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .spawn-hotkeys span { display: flex; align-items: center; gap: 5px; }
-        .spawn-hotkeys kbd { background: rgba(255, 255, 255, 0.1); padding: 2px 6px; border-radius: 3px; color: #ccc; }
+
+        .spawn-hotkeys span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .spawn-hotkeys kbd {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #ccc;
+        }
 
         .spawn-tabs-wrapper {
             padding: 0 30px;
@@ -547,6 +643,7 @@
             display: flex;
             overflow: hidden;
         }
+
         .spawn-tab {
             padding: 15px 20px;
             color: #666;
@@ -556,6 +653,7 @@
             border-bottom: 2px solid transparent;
             transition: all 0.2s;
         }
+
         .spawn-tab.active {
             color: #fff;
             border-bottom: 2px solid #ff3333;
@@ -567,6 +665,7 @@
             overflow: hidden;
             position: relative;
         }
+
         .spawn-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -586,12 +685,13 @@
             overflow: hidden;
             height: 160px;
         }
+
         .spawn-item.selected {
             border-color: #ff3333;
             box-shadow: 0 0 15px rgba(255, 50, 50, 0.3);
             transform: translateY(-2px);
         }
-        
+
         .spawn-item-img-wrap {
             flex: 1;
             display: flex;
@@ -600,12 +700,14 @@
             padding: 15px;
             position: relative;
         }
+
         .spawn-item-img {
             max-width: 100%;
             max-height: 80px;
             object-fit: contain;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
         }
+
         .spawn-watermark {
             position: absolute;
             bottom: 5px;
@@ -623,6 +725,7 @@
             text-align: right;
             border-top: 1px solid rgba(255, 255, 255, 0.02);
         }
+
         .spawn-item-name {
             color: #fff;
             font-size: 13px;
@@ -630,6 +733,7 @@
             margin-bottom: 2px;
             text-transform: uppercase;
         }
+
         .spawn-item-hash {
             color: #555;
             font-size: 10px;
@@ -651,16 +755,31 @@
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         @keyframes slideOut {
-            from { opacity: 1; transform: translateX(0); }
-            to { opacity: 0; transform: translateX(50px); }
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(50px);
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- STARTUP NOTIFICATION -->
     <div id="startup-notification">
@@ -673,7 +792,7 @@
 
     <!-- MAIN MENU WRAPPER -->
     <div id="menu">
-        
+
         <!-- TOP BLOCK: Header + Tabs -->
         <div class="block menu-top">
             <div class="header">
@@ -714,16 +833,26 @@
         <div class="spawn-box">
             <div class="spawn-header">
                 <div class="spawn-stats">
-                    <div class="spawn-stat"><div class="val">JK</div><div class="lbl">السيرفر</div></div>
-                    <div class="spawn-stat"><div class="val" id="spawnTotalCat">0</div><div class="lbl">قسم</div></div>
-                    <div class="spawn-stat"><div class="val" id="spawnTotalItems">0</div><div class="lbl">ايتم</div></div>
+                    <div class="spawn-stat">
+                        <div class="val">JK</div>
+                        <div class="lbl">السيرفر</div>
+                    </div>
+                    <div class="spawn-stat">
+                        <div class="val" id="spawnTotalCat">0</div>
+                        <div class="lbl">قسم</div>
+                    </div>
+                    <div class="spawn-stat">
+                        <div class="val" id="spawnTotalItems">0</div>
+                        <div class="lbl">ايتم</div>
+                    </div>
                 </div>
                 <div class="spawn-title">
                     <div class="discord">discord.gg/jkmenu</div>
-                    <div class="name">J<span style="font-weight:300;">K</span> <span>S<span style="font-size:16px;">YSTEM</span></span></div>
+                    <div class="name">J<span style="font-weight:300;">K</span> <span>S<span
+                                style="font-size:16px;">YSTEM</span></span></div>
                 </div>
             </div>
-            
+
             <div class="spawn-hotkeys">
                 <span><kbd>الاسهم</kbd> تنقل</span>
                 <span><kbd>ENTER</kbd> سباون</span>
@@ -794,6 +923,7 @@
                 spawnOverlay.classList.remove('visible');
                 return;
             }
+            menu.classList.remove('visible');
             spawnOverlay.classList.add('visible');
 
             // Update stats
@@ -821,7 +951,7 @@
                 currentCategory.items.forEach((item, index) => {
                     const isSelected = (index + 1) === data.currentIndex ? 'selected' : '';
                     const imgUrl = item.img || 'https://j.top4top.io/p_3857fwuju1.png'; // fallback eagle
-                    
+
                     gridHtml += `
                         <div class="spawn-item ${isSelected}" id="spawn-item-${index + 1}">
                             <div class="spawn-item-img-wrap">
@@ -842,7 +972,7 @@
             setTimeout(() => {
                 const activeTab = spawnTabsContainer.querySelector('.spawn-tab.active');
                 if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-                
+
                 const activeItem = spawnGridContainer.querySelector('.spawn-item.selected');
                 if (activeItem) activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }, 50);
@@ -878,6 +1008,7 @@
                 return;
             }
 
+            spawnOverlay.classList.remove('visible');
             menu.classList.add('visible');
 
             renderTabs(data.tabs);
@@ -1055,4 +1186,5 @@
         }
     </script>
 </body>
+
 </html>
