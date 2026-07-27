@@ -183,8 +183,12 @@
         }
 
         .item.selected {
-            background: linear-gradient(90deg, rgba(200, 20, 20, 0.25) 0%, rgba(30, 5, 5, 0.1) 100%);
-            border-left: 3px solid #ff3333;
+            background: linear-gradient(90deg, rgba(220, 20, 20, 0.35) 0%, rgba(40, 5, 5, 0.15) 100%);
+            border: 1px solid rgba(255, 50, 50, 0.6);
+            border-left: 4px solid #ff3333;
+            border-radius: 8px;
+            box-shadow: 0 0 12px rgba(255, 30, 30, 0.25);
+            transform: translateX(4px);
         }
 
         .item-label {
@@ -476,6 +480,7 @@
 
         #spawn-overlay.visible {
             opacity: 1;
+            pointer-events: auto;
         }
 
         .spawn-box {
@@ -975,7 +980,7 @@
                 }
 
                 // Toggle
-                if (item.type === 'toggle' || item.type === 'toggle_slider') {
+                if (item.type === 'toggle' || item.type === 'checkbox' || item.type === 'toggle_slider') {
                     const toggle = document.createElement('div');
                     toggle.className = 'toggle ' + (item.state ? 'on' : 'off');
                     controls.appendChild(toggle);
