@@ -520,238 +520,232 @@
             margin-top: 10px;
         }
 
-        /* ===== SPAWN MENU ===== */
-        #spawn-overlay {
+        /* ===== JK ARMORY PANEL (RIGHT SIDE) ===== */
+        #jk-armory {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; right: 0;
+            width: 480px;
+            height: 100vh;
+            background: linear-gradient(180deg, rgba(8,8,12,0.98) 0%, rgba(14,10,18,0.98) 100%);
+            border-left: 1px solid rgba(255,40,40,0.15);
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             opacity: 0;
+            transform: translateX(40px);
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
             z-index: 9999;
+            font-family: 'Inter', sans-serif;
         }
-
-        #spawn-overlay.visible {
+        #jk-armory.visible {
             opacity: 1;
+            transform: translateX(0);
             pointer-events: auto;
         }
 
-        .spawn-box {
-            width: 900px;
-            height: 750px;
-            background: rgba(12, 12, 14, 0.98);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+        .armory-header {
+            padding: 18px 22px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
             display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            font-family: 'Cairo', 'Inter', sans-serif;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+        .armory-logo {
+            display: flex; align-items: center; gap: 10px;
+        }
+        .armory-logo-icon {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, #ff2222 0%, #cc0000 100%);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 14px; color: #fff;
+            box-shadow: 0 0 20px rgba(255,30,30,0.3);
+        }
+        .armory-logo-text {
+            font-size: 16px; font-weight: 700; color: #fff;
+            letter-spacing: 2px;
+        }
+        .armory-logo-text span { color: #ff3333; }
+        .armory-badge {
+            background: rgba(255,50,50,0.12);
+            border: 1px solid rgba(255,50,50,0.25);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 10px;
+            color: #ff5555;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
-        .spawn-header {
+        .armory-search {
+            padding: 12px 22px;
+            flex-shrink: 0;
+        }
+        .armory-search-box {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 10px 14px 10px 36px;
+            color: #ccc;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .armory-search-box::placeholder { color: #555; }
+        .armory-search-box:focus { border-color: rgba(255,50,50,0.4); }
+        .armory-search-wrap {
+            position: relative;
+        }
+        .armory-search-wrap::before {
+            content: '🔍';
+            position: absolute;
+            left: 12px; top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            opacity: 0.5;
+        }
+
+        .armory-cats {
+            display: flex;
+            gap: 6px;
+            padding: 0 22px 12px;
+            overflow-x: auto;
+            flex-shrink: 0;
+        }
+        .armory-cats::-webkit-scrollbar { display: none; }
+        .armory-cat {
+            padding: 6px 14px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #888;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+        .armory-cat.active {
+            background: rgba(255,40,40,0.15);
+            border-color: rgba(255,40,40,0.4);
+            color: #ff4444;
+            box-shadow: 0 0 12px rgba(255,30,30,0.15);
+        }
+
+        .armory-count-bar {
+            padding: 4px 22px 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            flex-shrink: 0;
         }
-
-        .spawn-stats {
-            display: flex;
-            gap: 15px;
+        .armory-count {
+            font-size: 11px; color: #555; font-weight: 500;
         }
-
-        .spawn-stat {
-            background: rgba(20, 20, 25, 1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            padding: 8px 15px;
-            text-align: center;
+        .armory-count b { color: #ff4444; font-weight: 700; }
+        .armory-keys {
+            display: flex; gap: 8px;
         }
-
-        .spawn-stat .val {
-            color: #ff3333;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .spawn-stat .lbl {
+        .armory-key {
+            background: rgba(255,255,255,0.06);
+            border-radius: 4px;
+            padding: 2px 7px;
+            font-size: 9px;
             color: #666;
-            font-size: 10px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
-        .spawn-title {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .spawn-title .discord {
-            background: rgba(255, 50, 50, 0.1);
-            color: #ff3333;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: bold;
-            border: 1px solid rgba(255, 50, 50, 0.3);
-        }
-
-        .spawn-title .name {
-            color: #fff;
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 2px;
-        }
-
-        .spawn-title .name span {
-            color: #ff3333;
-        }
-
-        .spawn-hotkeys {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            padding: 10px 30px;
-            background: rgba(0, 0, 0, 0.2);
-            font-size: 11px;
-            color: #888;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .spawn-hotkeys span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .spawn-hotkeys kbd {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2px 6px;
-            border-radius: 3px;
-            color: #ccc;
-        }
-
-        .spawn-tabs-wrapper {
-            padding: 0 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            overflow: hidden;
-        }
-
-        .spawn-tab {
-            padding: 15px 20px;
-            color: #666;
-            font-weight: 700;
-            font-size: 14px;
-            text-transform: uppercase;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .spawn-tab.active {
-            color: #fff;
-            border-bottom: 2px solid #ff3333;
-        }
-
-        .spawn-grid-wrapper {
+        .armory-list {
             flex: 1;
-            padding: 20px 30px;
-            overflow: hidden;
-            position: relative;
+            overflow-y: auto;
+            padding: 0 22px 16px;
         }
+        .armory-list::-webkit-scrollbar { width: 3px; }
+        .armory-list::-webkit-scrollbar-track { background: transparent; }
+        .armory-list::-webkit-scrollbar-thumb { background: rgba(255,50,50,0.3); border-radius: 3px; }
 
-        .spawn-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            height: 100%;
-            align-content: start;
-        }
-
-        .spawn-item {
-            background: rgba(25, 25, 30, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .armory-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 14px;
             border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            margin-bottom: 6px;
             transition: all 0.2s;
-            overflow: hidden;
-            height: 160px;
         }
-
-        .spawn-item.selected {
-            border-color: #ff3333;
-            box-shadow: 0 0 15px rgba(255, 50, 50, 0.3);
-            transform: translateY(-2px);
+        .armory-item.selected {
+            background: rgba(255,40,40,0.08);
+            border-color: rgba(255,40,40,0.35);
+            box-shadow: 0 0 15px rgba(255,30,30,0.1);
         }
-
-        .spawn-item-img-wrap {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-            position: relative;
-        }
-
-        .spawn-item-img {
-            max-width: 100%;
-            max-height: 80px;
+        .armory-item-img {
+            width: 50px; height: 50px;
             object-fit: contain;
-            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
+            border-radius: 6px;
+            background: rgba(0,0,0,0.3);
+            padding: 4px;
+            flex-shrink: 0;
         }
-
-        .spawn-watermark {
-            position: absolute;
-            bottom: 5px;
-            width: 100%;
-            text-align: center;
-            font-size: 8px;
-            color: rgba(255, 255, 255, 0.1);
-            letter-spacing: 1px;
-            font-weight: bold;
+        .armory-item-info {
+            flex: 1;
+            min-width: 0;
         }
-
-        .spawn-item-info {
-            background: rgba(15, 15, 18, 0.9);
-            padding: 10px;
-            text-align: right;
-            border-top: 1px solid rgba(255, 255, 255, 0.02);
-        }
-
-        .spawn-item-name {
-            color: #fff;
+        .armory-item-name {
             font-size: 13px;
-            font-weight: 800;
-            margin-bottom: 2px;
+            font-weight: 700;
+            color: #e0e0e0;
             text-transform: uppercase;
+            margin-bottom: 2px;
         }
-
-        .spawn-item-hash {
-            color: #555;
+        .armory-item.selected .armory-item-name { color: #fff; }
+        .armory-item-hash {
             font-size: 10px;
-            font-family: monospace;
+            color: #555;
+            font-family: 'Courier New', monospace;
         }
+        .armory-item-cat {
+            font-size: 9px;
+            color: #ff5555;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .armory-item-arrow {
+            color: #ff3333;
+            font-size: 16px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .armory-item.selected .armory-item-arrow { opacity: 1; }
 
-        /* WATERMARK BACKGROUND */
-        .spawn-bg-watermark {
-            position: absolute;
-            bottom: 10%;
-            width: 100%;
-            text-align: center;
-            font-size: 80px;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.02);
-            pointer-events: none;
-            z-index: 0;
-            line-height: 0.9;
+        .armory-footer {
+            padding: 12px 22px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .armory-footer-brand {
+            font-size: 10px; color: #333;
+            font-weight: 600; letter-spacing: 2px;
+        }
+        .armory-footer-hint {
+            font-size: 10px; color: #555;
+        }
+        .armory-footer-hint kbd {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 3px;
+            padding: 1px 5px;
+            font-size: 9px;
+            color: #888;
         }
 
         @keyframes slideIn {
@@ -828,48 +822,39 @@
         <div class="lang-hint">Press ENTER to select / اضغط انتر للاختيار</div>
     </div>
 
-    <!-- SPAWN MENU OVERLAY -->
-    <div id="spawn-overlay">
-        <div class="spawn-box">
-            <div class="spawn-header">
-                <div class="spawn-stats">
-                    <div class="spawn-stat">
-                        <div class="val">JK</div>
-                        <div class="lbl">السيرفر</div>
-                    </div>
-                    <div class="spawn-stat">
-                        <div class="val" id="spawnTotalCat">0</div>
-                        <div class="lbl">قسم</div>
-                    </div>
-                    <div class="spawn-stat">
-                        <div class="val" id="spawnTotalItems">0</div>
-                        <div class="lbl">ايتم</div>
-                    </div>
-                </div>
-                <div class="spawn-title">
-                    <div class="discord">discord.gg/jkmenu</div>
-                    <div class="name">J<span style="font-weight:300;">K</span> <span>S<span
-                                style="font-size:16px;">YSTEM</span></span></div>
-                </div>
+    <!-- JK ARMORY PANEL -->
+    <div id="jk-armory">
+        <div class="armory-header">
+            <div class="armory-logo">
+                <div class="armory-logo-icon">JK</div>
+                <div class="armory-logo-text">JK <span>ARMORY</span></div>
             </div>
+            <div class="armory-badge" id="armoryBadge">PREMIUM</div>
+        </div>
 
-            <div class="spawn-hotkeys">
-                <span><kbd>الاسهم</kbd> تنقل</span>
-                <span><kbd>ENTER</kbd> سباون</span>
-                <span><kbd>Q</kbd> <kbd>E</kbd> قسم</span>
-                <span><kbd>ESC</kbd> اغلاق</span>
+        <div class="armory-search">
+            <div class="armory-search-wrap">
+                <input type="text" class="armory-search-box" id="armorySearch" placeholder="ابحث عن سلاح أو ايتم..." readonly>
             </div>
+        </div>
 
-            <div class="spawn-tabs-wrapper" id="spawnTabsContainer">
-                <!-- Tabs will be injected here -->
-            </div>
+        <div class="armory-cats" id="armoryCats"></div>
 
-            <div class="spawn-grid-wrapper">
-                <div class="spawn-bg-watermark">JK SYSTEM<br>PREMIUM FEATURES</div>
-                <div class="spawn-grid" id="spawnGridContainer">
-                    <!-- Items will be injected here -->
-                </div>
+        <div class="armory-count-bar">
+            <div class="armory-count"><b id="armoryItemCount">0</b> ايتم في <b id="armoryCatCount">0</b> قسم</div>
+            <div class="armory-keys">
+                <span class="armory-key">↑↓ تنقل</span>
+                <span class="armory-key">Q/E قسم</span>
+                <span class="armory-key">ENTER اختيار</span>
+                <span class="armory-key">ESC اغلاق</span>
             </div>
+        </div>
+
+        <div class="armory-list" id="armoryList"></div>
+
+        <div class="armory-footer">
+            <div class="armory-footer-brand">DISCORD.GG/JKMENU</div>
+            <div class="armory-footer-hint"><kbd>ENTER</kbd> لإضافة العنصر</div>
         </div>
     </div>
 
@@ -911,71 +896,72 @@
             }
         });
 
-        // ===== SPAWN MENU =====
-        const spawnOverlay = document.getElementById('spawn-overlay');
-        const spawnTabsContainer = document.getElementById('spawnTabsContainer');
-        const spawnGridContainer = document.getElementById('spawnGridContainer');
-        const spawnTotalCat = document.getElementById('spawnTotalCat');
-        const spawnTotalItems = document.getElementById('spawnTotalItems');
+        // ===== JK ARMORY (SPAWN MENU RIGHT PANEL) =====
+        const jkArmory = document.getElementById('jk-armory');
+        const armorySearch = document.getElementById('armorySearch');
+        const armoryCats = document.getElementById('armoryCats');
+        const armoryItemCount = document.getElementById('armoryItemCount');
+        const armoryCatCount = document.getElementById('armoryCatCount');
+        const armoryList = document.getElementById('armoryList');
 
         function handleSpawnMenuUpdate(data) {
             if (!data.open) {
-                spawnOverlay.classList.remove('visible');
+                if (jkArmory) jkArmory.classList.remove('visible');
                 return;
             }
             menu.classList.remove('visible');
-            spawnOverlay.classList.add('visible');
+            if (jkArmory) jkArmory.classList.add('visible');
 
             // Update stats
-            spawnTotalCat.textContent = data.categories ? data.categories.length : 0;
+            armoryCatCount.textContent = data.categories ? data.categories.length : 0;
             let totItems = 0;
             if (data.categories) {
                 data.categories.forEach(c => totItems += (c.items ? c.items.length : 0));
             }
-            spawnTotalItems.textContent = totItems;
+            armoryItemCount.textContent = totItems;
 
             if (!data.categories || data.categories.length === 0) return;
 
-            // Render Tabs
+            // Render Categories
             let tabsHtml = '';
             data.categories.forEach((cat, index) => {
                 const isActive = (index + 1) === data.currentCat ? 'active' : '';
-                tabsHtml += `<div class="spawn-tab ${isActive}">${cat.label || cat.name}</div>`;
+                tabsHtml += `<div class="armory-cat ${isActive}">${cat.label || cat.name}</div>`;
             });
-            spawnTabsContainer.innerHTML = tabsHtml;
+            armoryCats.innerHTML = tabsHtml;
 
-            // Render Grid
-            let gridHtml = '';
+            // Render Item List
+            let listHtml = '';
             const currentCategory = data.categories[data.currentCat - 1];
             if (currentCategory && currentCategory.items) {
                 currentCategory.items.forEach((item, index) => {
                     const isSelected = (index + 1) === data.currentIndex ? 'selected' : '';
                     const imgUrl = item.img || 'https://j.top4top.io/p_3857fwuju1.png'; // fallback eagle
+                    const spawnCode = item.spawn || item.name || '';
 
-                    gridHtml += `
-                        <div class="spawn-item ${isSelected}" id="spawn-item-${index + 1}">
-                            <div class="spawn-item-img-wrap">
-                                <img src="${imgUrl}" class="spawn-item-img" onerror="this.src='https://j.top4top.io/p_3857fwuju1.png'">
-                                <div class="spawn-watermark">DISCORD.GG/JKMENU</div>
+                    listHtml += `
+                        <div class="armory-item ${isSelected}" id="armory-item-${index + 1}">
+                            <img src="${imgUrl}" class="armory-item-img" onerror="this.src='https://j.top4top.io/p_3857fwuju1.png'">
+                            <div class="armory-item-info">
+                                <div class="armory-item-name">${item.name || item.label}</div>
+                                <div class="armory-item-hash">${spawnCode}</div>
                             </div>
-                            <div class="spawn-item-info">
-                                <div class="spawn-item-name">${item.name || item.label}</div>
-                                <div class="spawn-item-hash">${item.spawn}</div>
-                            </div>
+                            <div class="armory-item-cat">${currentCategory.label || currentCategory.name}</div>
+                            <div class="armory-item-arrow">→</div>
                         </div>
                     `;
                 });
             }
-            spawnGridContainer.innerHTML = gridHtml;
+            armoryList.innerHTML = listHtml;
 
             // Scroll selected tab and item into view
             setTimeout(() => {
-                const activeTab = spawnTabsContainer.querySelector('.spawn-tab.active');
-                if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                const activeCat = armoryCats.querySelector('.armory-cat.active');
+                if (activeCat) activeCat.scrollIntoView({ behavior: 'smooth', inline: 'center' });
 
-                const activeItem = spawnGridContainer.querySelector('.spawn-item.selected');
+                const activeItem = armoryList.querySelector('.armory-item.selected');
                 if (activeItem) activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 50);
+            }, 30);
         }
 
         // ===== LANGUAGE SELECTOR =====
@@ -1008,7 +994,7 @@
                 return;
             }
 
-            spawnOverlay.classList.remove('visible');
+            if (jkArmory) jkArmory.classList.remove('visible');
             menu.classList.add('visible');
 
             renderTabs(data.tabs);
