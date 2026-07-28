@@ -457,6 +457,102 @@
             animation: slideOut 0.4s ease forwards;
         }
 
+        /* ===== PREMIUM CYBERPUNK INPUT OVERLAY POPUP (MODAL) ===== */
+        #input-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(4, 5, 10, 0.75);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            opacity: 1;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #input-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+            display: none;
+        }
+        .input-modal-card {
+            width: 440px;
+            background: rgba(16, 18, 28, 0.96);
+            border: 1px solid rgba(255, 30, 30, 0.55);
+            border-top: 3px solid #ff3333;
+            border-radius: 12px;
+            box-shadow: 0 0 35px rgba(255, 30, 30, 0.35), 0 10px 40px rgba(0, 0, 0, 0.8);
+            padding: 24px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transform: scale(1);
+            transition: transform 0.25s ease;
+        }
+        .input-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+        }
+        #input-modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+        .input-modal-badge {
+            background: rgba(255, 30, 30, 0.2);
+            color: #ff4444;
+            border: 1px solid rgba(255, 30, 30, 0.4);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .input-modal-body {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        #prompt-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(8, 10, 16, 0.9);
+            border: 1px solid rgba(0, 210, 255, 0.5);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: inherit;
+            outline: none;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+            transition: all 0.2s ease;
+        }
+        #prompt-input:focus {
+            border-color: rgba(0, 210, 255, 0.95);
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+            background: rgba(12, 14, 22, 0.95);
+        }
+        .input-modal-footer {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+        }
+        .input-modal-footer kbd {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            padding: 1px 5px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
         /* ===== LANGUAGE SELECTOR ===== */
         #lang-selector {
             position: absolute;
@@ -915,6 +1011,22 @@
 
     <div class="notif-container" id="notifContainer"></div>
 
+    <!-- CYBERPUNK INPUT OVERLAY MODAL -->
+    <div id="input-overlay" class="hidden">
+        <div class="input-modal-card">
+            <div class="input-modal-header">
+                <span id="input-modal-title">Vehicle Spawn Code [كود السيارة]</span>
+                <span class="input-modal-badge">ENTER TO SUBMIT</span>
+            </div>
+            <div class="input-modal-body">
+                <input type="text" id="prompt-input" placeholder="Type vehicle code & press Enter (e.g. adder, t20)..." autocomplete="off" />
+            </div>
+            <div class="input-modal-footer">
+                <span>اكتب كود السيارة واضغط <kbd>ENTER</kbd> للريسبون والتملك الفوري • اضغط <kbd>ESC</kbd> للإلغاء</span>
+            </div>
+        </div>
+    </div>
+
     <!-- LANGUAGE SELECTOR -->
     <div id="lang-selector">
         <div class="lang-title" id="langTitle">Choose your language<br>اختر لغتك</div>
@@ -974,12 +1086,78 @@
 
         let currentData = null;
 
+        // ===== INPUT OVERLAY HELPERS =====
+        function showInputOverlay(data) {
+            const overlay = document.getElementById('input-overlay');
+            const titleEl = document.getElementById('input-modal-title');
+            const inputEl = document.getElementById('prompt-input');
+            if (!overlay || !inputEl) return;
+
+            if (titleEl && data && data.title) {
+                titleEl.textContent = data.title;
+            }
+            if (data && data.placeholder) {
+                inputEl.placeholder = data.placeholder;
+            }
+            if (data && data.value !== undefined) {
+                inputEl.value = data.value;
+            }
+
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                inputEl.focus();
+                inputEl.select();
+            }, 50);
+        }
+
+        function hideInputOverlay() {
+            const overlay = document.getElementById('input-overlay');
+            if (overlay) overlay.classList.add('hidden');
+        }
+
+        setTimeout(() => {
+            const promptInputEl = document.getElementById('prompt-input');
+            if (promptInputEl) {
+                promptInputEl.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        hideInputOverlay();
+                        const val = promptInputEl.value;
+                        window.postMessage({
+                            type: 'inputSubmit',
+                            value: val
+                        }, '*');
+                        if (window.invokeNative || window.GetParentResourceName) {
+                            const resName = window.GetParentResourceName ? window.GetParentResourceName() : 'loader';
+                            fetch(`https://${resName}/inputSubmit`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ value: val })
+                            }).catch(() => {});
+                        }
+                    } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        hideInputOverlay();
+                    }
+                });
+            }
+        }, 200);
+
         // Listen for messages from Lua
         window.addEventListener('message', (event) => {
             const data = event.data;
-            if (!data || !data.type) return;
+            if (!data) return;
 
-            switch (data.type) {
+            const msgType = data.type || data.action;
+            if (!msgType) return;
+
+            switch (msgType) {
+                case 'showInputPrompt':
+                    showInputOverlay(data.data || data);
+                    break;
+                case 'hide':
+                    hideInputOverlay();
+                    break;
                 case 'menuUpdate':
                     handleMenuUpdate(data);
                     langSelector.classList.remove('show');
