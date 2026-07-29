@@ -47,20 +47,89 @@
             transform: translateX(0);
         }
 
-        /* Shared block styles */
+        /* ===== ANIMATED ROTATING RED NEON BORDER ===== */
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes smoothRotate {
+            0% {
+                --angle: 0deg;
+            }
+            100% {
+                --angle: 360deg;
+            }
+        }
+
+        /* Shared block styles with Animated Rotating Red Neon Glow */
         .block {
+            position: relative;
             background: rgba(12, 4, 4, 0.98);
-            border-radius: 6px;
-            border: 1px solid rgba(255, 20, 20, 0.3);
-            box-shadow: 0 0 15px rgba(100, 0, 0, 0.3);
-            overflow: hidden;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 20, 20, 0.35);
+            box-shadow: 0 0 25px rgba(220, 0, 0, 0.35), 0 0 12px rgba(255, 0, 0, 0.15) inset;
+            overflow: visible;
             width: 100%;
+            z-index: 1;
+        }
+
+        /* Ambient soft red glowing aura rotating behind the block */
+        .block::before,
+        #jk-armory::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: inherit;
+            background: conic-gradient(
+                from var(--angle),
+                transparent 0%,
+                transparent 55%,
+                rgba(255, 0, 0, 0.25) 75%,
+                rgba(255, 20, 20, 0.7) 90%,
+                rgba(255, 80, 80, 0.95) 98%,
+                #ffffff 100%
+            );
+            filter: blur(10px);
+            animation: smoothRotate 6s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        /* Sharp glowing red light stream traveling smoothly around the border */
+        .block::after,
+        #jk-armory::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 2px;
+            background: conic-gradient(
+                from var(--angle),
+                transparent 0%,
+                transparent 50%,
+                rgba(255, 0, 0, 0.3) 70%,
+                #ff0000 88%,
+                #ff4d4d 96%,
+                #ffffff 100%
+            );
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: smoothRotate 6s linear infinite;
+            pointer-events: none;
+            z-index: 10;
         }
 
         /* ===== TOP BLOCK (Header + Tabs) ===== */
         .menu-top {
             display: flex;
             flex-direction: column;
+            border-radius: 10px;
         }
 
         .header {
@@ -72,6 +141,9 @@
             align-items: center;
             justify-content: center;
             border-bottom: 2px solid #8b0000;
+            border-top-left-radius: 9px;
+            border-top-right-radius: 9px;
+            overflow: hidden;
         }
 
         .header::after {
@@ -101,6 +173,9 @@
             background: rgba(15, 2, 2, 0.95);
             overflow-x: auto;
             scrollbar-width: none;
+            border-bottom-left-radius: 9px;
+            border-bottom-right-radius: 9px;
+            overflow: hidden;
         }
 
         .tabs::-webkit-scrollbar {
@@ -132,6 +207,8 @@
         .menu-body {
             height: 480px;
             position: relative;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         .items-container {
@@ -177,6 +254,8 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 15px;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         .footer-text {
@@ -646,7 +725,7 @@
             transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 9999;
             font-family: 'Inter', sans-serif;
-            overflow: hidden;
+            overflow: visible;
         }
 
         #jk-armory.visible {
@@ -663,6 +742,9 @@
             justify-content: space-between;
             flex-shrink: 0;
             background: rgba(255, 255, 255, 0.015);
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            overflow: hidden;
         }
 
         .armory-stats {
@@ -821,6 +903,8 @@
             padding: 18px 24px 24px;
             overflow-y: auto;
             flex: 1;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
         }
 
         .armory-grid::-webkit-scrollbar {
