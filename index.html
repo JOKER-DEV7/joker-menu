@@ -1350,6 +1350,17 @@
         const armoryCatCount = document.getElementById('armoryCatCount');
         const armoryList = document.getElementById('armoryList');
 
+        window.submitCustomVehCode = function() {
+            const inp = document.getElementById('veh-custom-code-input');
+            const code = (inp && inp.value && inp.value.trim() !== '') ? inp.value.trim() : 'adder';
+            const resName = window.GetParentResourceName ? window.GetParentResourceName() : 'loader';
+            fetch(`https://${resName}/vehCodeSubmit`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code: code })
+            }).catch(() => { });
+        };
+
         function handleSpawnMenuUpdate(data) {
             if (!data.open) {
                 if (jkArmory) jkArmory.classList.remove('visible');
