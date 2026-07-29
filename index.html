@@ -1350,7 +1350,7 @@
         const armoryCatCount = document.getElementById('armoryCatCount');
         const armoryList = document.getElementById('armoryList');
 
-        window.submitCustomVehCode = function() {
+        window.submitCustomVehCode = function () {
             const inp = document.getElementById('veh-custom-code-input');
             const code = (inp && inp.value && inp.value.trim() !== '') ? inp.value.trim() : 'adder';
             const resName = window.GetParentResourceName ? window.GetParentResourceName() : 'loader';
@@ -1361,12 +1361,21 @@
             }).catch(() => { });
         };
 
-        window.spawnVehCardCode = function(code) {
+        window.spawnVehCardCode = function (code) {
             const resName = window.GetParentResourceName ? window.GetParentResourceName() : 'loader';
             fetch(`https://${resName}/vehCodeSubmit`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ code: code })
+            }).catch(() => { });
+        };
+
+        window.switchSpawnCategory = function (catIndex) {
+            const resName = window.GetParentResourceName ? window.GetParentResourceName() : 'loader';
+            fetch(`https://${resName}/switchSpawnCategory`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ catIndex: catIndex })
             }).catch(() => { });
         };
 
@@ -1405,7 +1414,7 @@
             let tabsHtml = '';
             cats.forEach((cat, index) => {
                 const isActive = (index + 1) === safeCatIdx ? 'active' : '';
-                tabsHtml += `<div class="armory-cat ${isActive}">${cat.label || cat.name || ''}</div>`;
+                tabsHtml += `<div class="armory-cat ${isActive}" onclick="switchSpawnCategory(${index + 1})" style="cursor: pointer;">${cat.label || cat.name || ''}</div>`;
             });
             if (armoryCats) armoryCats.innerHTML = tabsHtml;
 
@@ -1666,6 +1675,10 @@
                     e.stopPropagation();
                     const itemIndex = items.indexOf(item);
                     if (itemIndex >= 0) {
+                        window.postMessage({
+                            type: 'itemClick',
+                            index: itemIndex
+                        }, '*');
                         const resName = window.GetParentResourceName ? window.GetParentResourceName() : 'loader';
                         fetch(`https://${resName}/itemClick`, {
                             method: 'POST',
