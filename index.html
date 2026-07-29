@@ -58,6 +58,7 @@
             0% {
                 --angle: 0deg;
             }
+
             100% {
                 --angle: 360deg;
             }
@@ -75,54 +76,44 @@
             z-index: 1;
         }
 
-        /* Ambient soft red glowing aura rotating behind the block */
+        /* Ambient soft crimson shadow/halo rotating slowly around the outer frame */
         .block::before,
         #jk-armory::before {
             content: '';
             position: absolute;
-            inset: -4px;
+            inset: -6px;
             border-radius: inherit;
-            background: conic-gradient(
-                from var(--angle),
-                transparent 0%,
-                transparent 55%,
-                rgba(255, 0, 0, 0.25) 75%,
-                rgba(255, 20, 20, 0.7) 90%,
-                rgba(255, 80, 80, 0.95) 98%,
-                #ffffff 100%
-            );
-            filter: blur(10px);
-            animation: smoothRotate 6s linear infinite;
+            background: conic-gradient(from var(--angle),
+                    transparent 0%,
+                    transparent 60%,
+                    rgba(255, 0, 0, 0.2) 75%,
+                    rgba(255, 20, 20, 0.65) 90%,
+                    rgba(255, 45, 45, 0.95) 98%,
+                    #ff1a1a 100%);
+            filter: blur(14px);
+            animation: smoothRotate 12s linear infinite;
             pointer-events: none;
-            z-index: -1;
-            opacity: 0.9;
+            z-index: -2;
+            opacity: 0.8;
         }
 
-        /* Sharp glowing red light stream traveling smoothly around the border */
+        /* Pure red neon light strip on the outer border frame only */
         .block::after,
         #jk-armory::after {
             content: '';
             position: absolute;
-            inset: 0;
+            inset: -2px;
             border-radius: inherit;
-            padding: 2px;
-            background: conic-gradient(
-                from var(--angle),
-                transparent 0%,
-                transparent 50%,
-                rgba(255, 0, 0, 0.3) 70%,
-                #ff0000 88%,
-                #ff4d4d 96%,
-                #ffffff 100%
-            );
-            -webkit-mask: 
-                linear-gradient(#fff 0 0) content-box, 
-                linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            animation: smoothRotate 6s linear infinite;
+            background: conic-gradient(from var(--angle),
+                    transparent 0%,
+                    transparent 55%,
+                    rgba(220, 0, 0, 0.3) 75%,
+                    rgba(255, 0, 0, 0.8) 90%,
+                    #ff1a1a 97%,
+                    #ff4d4d 100%);
+            animation: smoothRotate 12s linear infinite;
             pointer-events: none;
-            z-index: 10;
+            z-index: -1;
         }
 
         /* ===== TOP BLOCK (Header + Tabs) ===== */
@@ -1707,6 +1698,22 @@
                 }
 
                 el.appendChild(controls);
+
+                // Direct mouse click support for menu items
+                el.addEventListener('click', (e) => {
+                    if (e.target && e.target.tagName === 'INPUT') return;
+                    e.stopPropagation();
+                    const itemIndex = items.indexOf(item);
+                    if (itemIndex >= 0) {
+                        const resName = window.GetParentResourceName ? window.GetParentResourceName() : 'loader';
+                        fetch(`https://${resName}/itemClick`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ index: itemIndex })
+                        }).catch(() => { });
+                    }
+                });
+
                 frag.appendChild(el);
             });
 
