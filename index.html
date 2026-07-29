@@ -473,11 +473,13 @@
             opacity: 1;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         #input-overlay.hidden {
             opacity: 0;
             pointer-events: none;
             display: none;
         }
+
         .input-modal-card {
             width: 440px;
             background: rgba(16, 18, 28, 0.96);
@@ -492,6 +494,7 @@
             transform: scale(1);
             transition: transform 0.25s ease;
         }
+
         .input-modal-header {
             display: flex;
             justify-content: space-between;
@@ -499,12 +502,14 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 12px;
         }
+
         #input-modal-title {
             font-size: 16px;
             font-weight: 700;
             color: #ffffff;
             letter-spacing: 0.5px;
         }
+
         .input-modal-badge {
             background: rgba(255, 30, 30, 0.2);
             color: #ff4444;
@@ -514,11 +519,13 @@
             padding: 3px 8px;
             border-radius: 4px;
         }
+
         .input-modal-body {
             display: flex;
             flex-direction: column;
             width: 100%;
         }
+
         #prompt-input {
             width: 100%;
             padding: 12px 16px;
@@ -533,16 +540,19 @@
             box-shadow: 0 0 15px rgba(0, 210, 255, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.5);
             transition: all 0.2s ease;
         }
+
         #prompt-input:focus {
             border-color: rgba(0, 210, 255, 0.95);
             box-shadow: 0 0 25px rgba(0, 210, 255, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.5);
             background: rgba(12, 14, 22, 0.95);
         }
+
         .input-modal-footer {
             font-size: 11px;
             color: rgba(255, 255, 255, 0.6);
             text-align: center;
         }
+
         .input-modal-footer kbd {
             background: rgba(255, 255, 255, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -1019,10 +1029,12 @@
                 <span class="input-modal-badge">ENTER TO SUBMIT</span>
             </div>
             <div class="input-modal-body">
-                <input type="text" id="prompt-input" placeholder="Type vehicle code & press Enter (e.g. adder, t20)..." autocomplete="off" />
+                <input type="text" id="prompt-input" placeholder="Type vehicle code & press Enter (e.g. adder, t20)..."
+                    autocomplete="off" />
             </div>
             <div class="input-modal-footer">
-                <span>اكتب كود السيارة واضغط <kbd>ENTER</kbd> للريسبون والتملك الفوري • اضغط <kbd>ESC</kbd> للإلغاء</span>
+                <span>اكتب كود السيارة واضغط <kbd>ENTER</kbd> للريسبون والتملك الفوري • اضغط <kbd>ESC</kbd>
+                    للإلغاء</span>
             </div>
         </div>
     </div>
@@ -1099,15 +1111,21 @@
             if (data && data.placeholder) {
                 inputEl.placeholder = data.placeholder;
             }
-            if (data && data.value !== undefined) {
-                inputEl.value = data.value;
-            }
+            inputEl.value = (data && data.value !== undefined) ? data.value : "";
 
             overlay.classList.remove('hidden');
             setTimeout(() => {
                 inputEl.focus();
                 inputEl.select();
+            }, 10);
+            setTimeout(() => {
+                inputEl.focus();
+                inputEl.select();
             }, 50);
+            setTimeout(() => {
+                inputEl.focus();
+                inputEl.select();
+            }, 150);
         }
 
         function hideInputOverlay() {
@@ -1133,7 +1151,7 @@
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ value: val })
-                            }).catch(() => {});
+                            }).catch(() => { });
                         }
                     } else if (e.key === 'Escape') {
                         e.preventDefault();
@@ -1394,7 +1412,9 @@
                     inputEl.placeholder = item.placeholder || 'Type code & press Enter...';
                     inputEl.value = item.value || '';
                     if (item.selected) {
-                        setTimeout(() => inputEl.focus(), 50);
+                        setTimeout(() => { inputEl.focus(); inputEl.select(); }, 10);
+                        setTimeout(() => { inputEl.focus(); inputEl.select(); }, 50);
+                        setTimeout(() => { inputEl.focus(); inputEl.select(); }, 150);
                     }
                     inputEl.addEventListener('keydown', (e) => {
                         e.stopPropagation();
