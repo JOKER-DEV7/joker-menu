@@ -47,73 +47,13 @@
             transform: translateX(0);
         }
 
-        /* ===== ANIMATED ROTATING RED NEON BORDER ===== */
-        @property --angle {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
-        }
-
-        @keyframes smoothRotate {
-            0% {
-                --angle: 0deg;
-            }
-
-            100% {
-                --angle: 360deg;
-            }
-        }
-
-        /* Shared block styles with Animated Rotating Red Neon Glow */
+        /* ===== SHARED BLOCK STYLES ===== */
         .block {
-            position: relative;
-            background: rgba(12, 4, 4, 0.98);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 20, 20, 0.35);
-            box-shadow: 0 0 25px rgba(220, 0, 0, 0.35), 0 0 12px rgba(255, 0, 0, 0.15) inset;
-            overflow: visible;
+            background: rgba(14, 14, 14, 0.95);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
             width: 100%;
-            z-index: 1;
-        }
-
-        /* Ambient soft crimson shadow/halo rotating slowly around the outer frame */
-        .block::before,
-        #jk-armory::before {
-            content: '';
-            position: absolute;
-            inset: -6px;
-            border-radius: inherit;
-            background: conic-gradient(from var(--angle),
-                    transparent 0%,
-                    transparent 60%,
-                    rgba(255, 0, 0, 0.2) 75%,
-                    rgba(255, 20, 20, 0.65) 90%,
-                    rgba(255, 45, 45, 0.95) 98%,
-                    #ff1a1a 100%);
-            filter: blur(14px);
-            animation: smoothRotate 12s linear infinite;
-            pointer-events: none;
-            z-index: -2;
-            opacity: 0.8;
-        }
-
-        /* Pure red neon light strip on the outer border frame only */
-        .block::after,
-        #jk-armory::after {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: inherit;
-            background: conic-gradient(from var(--angle),
-                    transparent 0%,
-                    transparent 55%,
-                    rgba(220, 0, 0, 0.3) 75%,
-                    rgba(255, 0, 0, 0.8) 90%,
-                    #ff1a1a 97%,
-                    #ff4d4d 100%);
-            animation: smoothRotate 12s linear infinite;
-            pointer-events: none;
-            z-index: -1;
         }
 
         /* ===== TOP BLOCK (Header + Tabs) ===== */
@@ -716,7 +656,7 @@
             transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 9999;
             font-family: 'Inter', sans-serif;
-            overflow: visible;
+            overflow: hidden;
         }
 
         #jk-armory.visible {
