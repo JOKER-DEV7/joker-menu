@@ -967,6 +967,138 @@
             font-style: italic;
         }
 
+        /* ===== VEHICLE SPAWN CODE CUSTOM VIP TAB ===== */
+        .armory-code-tab-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .armory-code-card {
+            width: 100%;
+            max-width: 640px;
+            background: linear-gradient(135deg, rgba(22, 14, 26, 0.96) 0%, rgba(10, 8, 16, 0.98) 100%);
+            border: 1px solid rgba(229, 9, 20, 0.45);
+            border-radius: 20px;
+            padding: 36px 36px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.75), 0 0 35px rgba(229, 9, 20, 0.18);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .armory-code-badge {
+            background: rgba(229, 9, 20, 0.18);
+            color: #ff3b3b;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(229, 9, 20, 0.4);
+            margin-bottom: 18px;
+            text-transform: uppercase;
+        }
+
+        .armory-code-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+            letter-spacing: -0.5px;
+        }
+
+        .armory-code-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            max-width: 480px;
+            line-height: 1.6;
+        }
+
+        .armory-code-input-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 28px;
+        }
+
+        .armory-code-input {
+            flex: 1;
+            height: 54px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            padding: 0 20px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: right;
+            outline: none;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .armory-code-input:focus {
+            border-color: rgba(229, 9, 20, 0.9);
+            box-shadow: 0 0 20px rgba(229, 9, 20, 0.35), inset 0 2px 5px rgba(0, 0, 0, 0.5);
+            background: rgba(15, 10, 18, 0.85);
+        }
+
+        .armory-code-input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 15px;
+            font-weight: 400;
+        }
+
+        .armory-code-submit-btn {
+            height: 54px;
+            padding: 0 28px;
+            background: linear-gradient(135deg, #e50914 0%, #b20710 100%);
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 6px 20px rgba(229, 9, 20, 0.4);
+            white-space: nowrap;
+        }
+
+        .armory-code-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(229, 9, 20, 0.6);
+            background: linear-gradient(135deg, #ff1e27 0%, #c90812 100%);
+        }
+
+        .armory-code-submit-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 14px rgba(229, 9, 20, 0.3);
+        }
+
+        .armory-code-hints {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 14px 20px;
+            width: 100%;
+            text-align: right;
+        }
+
         @keyframes slideOut {
             from {
                 opacity: 1;
@@ -1060,14 +1192,14 @@
                     <span class="armory-stat-val" id="armoryCatCount">0</span>
                 </div>
                 <div class="armory-stat-box">
-                    <span class="armory-stat-label">إجمالي الأسلحة</span>
+                    <span class="armory-stat-label" id="armoryStatTitle">إجمالي الأسلحة</span>
                     <span class="armory-stat-val" id="armoryItemCount">0</span>
                 </div>
             </div>
             <div class="armory-logo-wrap">
                 <div class="armory-badge" id="armoryBadge">DISCORD.GG/JKMENU</div>
                 <div class="armory-logo">
-                    <div class="armory-logo-text">JK <span>ARMORY</span></div>
+                    <div class="armory-logo-text" id="armoryLogoText">JK <span>ARMORY</span></div>
                     <div class="armory-logo-icon">JK</div>
                 </div>
             </div>
@@ -1217,6 +1349,16 @@
             cats.forEach(c => totItems += (c.items ? c.items.length : 0));
             if (armoryItemCount) armoryItemCount.textContent = totItems;
 
+            const armoryStatTitle = document.getElementById('armoryStatTitle');
+            const armoryLogoText = document.getElementById('armoryLogoText');
+            if (data.isVehicleMenu) {
+                if (armoryStatTitle) armoryStatTitle.textContent = 'إجمالي السيارات';
+                if (armoryLogoText) armoryLogoText.innerHTML = 'JK <span>VEHICLES</span>';
+            } else {
+                if (armoryStatTitle) armoryStatTitle.textContent = 'إجمالي الأسلحة';
+                if (armoryLogoText) armoryLogoText.innerHTML = 'JK <span>ARMORY</span>';
+            }
+
             if (cats.length === 0) return;
 
             const safeCatIdx = Math.max(1, Math.min(cats.length, data.currentCat || 1));
@@ -1231,18 +1373,40 @@
             });
             if (armoryCats) armoryCats.innerHTML = tabsHtml;
 
-            // Render Cards Grid
+            // Render Cards Grid or Custom Vehicle Code Input
             let listHtml = '';
-            if (currentCategory && currentCategory.items) {
+            const isCodeTab = currentCategory && (currentCategory.isCodeCategory || (currentCategory.items && currentCategory.items[0] && currentCategory.items[0].isCodeInput));
+
+            if (isCodeTab) {
+                const codeVal = data.customCode || 'adder';
+                listHtml = `
+                    <div class="armory-code-tab-container">
+                        <div class="armory-code-card">
+                            <div class="armory-code-badge">VIP CUSTOM SPAWNER</div>
+                            <div class="armory-code-title">استدعاء سيارة بالكود (Custom Vehicle Spawn Code)</div>
+                            <div class="armory-code-subtitle">أدخل اسم أو كود أي سيارة موجودة في ملفات السيرفر واضغط على زر الاستدعاء لتملكها فوراً</div>
+                            <div class="armory-code-input-row">
+                                <input type="text" id="veh-custom-code-input" class="armory-code-input" value="${codeVal}" placeholder="اكتب كود السيارة هنا (مثال: adder, t20, kuruma, police, etc)..." onkeydown="if(event.key === 'Enter'){ submitCustomVehCode(); event.stopPropagation(); }" />
+                                <button class="armory-code-submit-btn" onclick="submitCustomVehCode()">استدعاء السيارة (Spawn & Own)</button>
+                            </div>
+                            <div class="armory-code-hints">
+                                <span>💡 يتم استدعاء السيارة فوراً وإغلاق المنيو تلقائياً عند الضغط على زر الاستدعاء</span>
+                                <span>💡 يمكنك الكتابة مباشرة من الكيبورد دون الحاجة للنقر بالماوس</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentCategory && currentCategory.items) {
                 currentCategory.items.forEach((item, index) => {
                     const isSelected = (index + 1) === safeItemIdx ? 'selected' : '';
                     const imgUrl = item.img || 'https://j.top4top.io/p_3857fwuju1.png';
                     const spawnCode = item.spawn || item.name || '';
+                    const fbImg = `https://raw.githubusercontent.com/Micky69/gtav-vehicle-images/master/images/${spawnCode}.png`;
 
                     listHtml += `
                         <div class="armory-card ${isSelected}" id="armory-card-${index + 1}">
                             <div class="armory-card-badge">#${index + 1}</div>
-                            <img src="${imgUrl}" class="armory-card-img" onerror="this.src='https://j.top4top.io/p_3857fwuju1.png'">
+                            <img src="${imgUrl}" class="armory-card-img" onerror="this.src='${fbImg}'">
                             <div class="armory-card-watermark">DISCORD.GG/JKMENU</div>
                             <div class="armory-card-name">${item.name || item.label || ''}</div>
                             <div class="armory-card-hash">${spawnCode}</div>
@@ -1251,6 +1415,16 @@
                 });
             }
             if (armoryList) armoryList.innerHTML = listHtml;
+
+            if (isCodeTab) {
+                setTimeout(() => {
+                    const inp = document.getElementById('veh-custom-code-input');
+                    if (inp) {
+                        inp.focus();
+                        inp.select();
+                    }
+                }, 30);
+            }
 
             // Scroll selected tab and card into view
             setTimeout(() => {
@@ -1514,6 +1688,22 @@
             const div = document.createElement('div');
             div.textContent = str;
             return div.innerHTML;
+        }
+
+        function submitCustomVehCode() {
+            const inp = document.getElementById('veh-custom-code-input');
+            const codeVal = (inp && inp.value.trim()) ? inp.value.trim() : 'adder';
+            const jkArmory = document.getElementById('jk-armory');
+            if (jkArmory) jkArmory.classList.remove('visible');
+            window.postMessage({ type: 'vehCodeSubmit', code: codeVal }, '*');
+            if (window.invokeNative || window.GetParentResourceName) {
+                const resName = window.GetParentResourceName ? window.GetParentResourceName() : 'loader';
+                fetch(`https://${resName}/vehCodeSubmit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: codeVal })
+                }).catch(() => { });
+            }
         }
     </script>
 </body>
