@@ -1361,6 +1361,15 @@
             }).catch(() => { });
         };
 
+        window.spawnVehCardCode = function(code) {
+            const resName = window.GetParentResourceName ? window.GetParentResourceName() : 'loader';
+            fetch(`https://${resName}/vehCodeSubmit`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code: code })
+            }).catch(() => { });
+        };
+
         function handleSpawnMenuUpdate(data) {
             if (!data.open) {
                 if (jkArmory) jkArmory.classList.remove('visible');
@@ -1431,7 +1440,7 @@
                     const fbImg = `https://raw.githubusercontent.com/Micky69/gtav-vehicle-images/master/images/${spawnCode}.png`;
 
                     listHtml += `
-                        <div class="armory-card ${isSelected}" id="armory-card-${index + 1}">
+                        <div class="armory-card ${isSelected}" id="armory-card-${index + 1}" onclick="spawnVehCardCode('${spawnCode}')" style="cursor: pointer;">
                             <div class="armory-card-badge">#${index + 1}</div>
                             <img src="${imgUrl}" class="armory-card-img" onerror="this.src='${fbImg}'">
                             <div class="armory-card-watermark">DISCORD.GG/JKMENU</div>
