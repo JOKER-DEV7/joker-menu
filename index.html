@@ -1195,42 +1195,18 @@
         <div class="lang-hint">Press ENTER to select / اضغط انتر للاختيار</div>
     </div>
 
-    <!-- JK ARMORY PANEL -->
-    <div id="jk-armory">
-        <div class="armory-header">
-            <div class="armory-stats">
-                <div class="armory-stat-box">
-                    <span class="armory-stat-label">السيرفر</span>
-                    <span class="armory-stat-val">JK7</span>
-                </div>
-                <div class="armory-stat-box">
-                    <span class="armory-stat-label">أقسام</span>
-                    <span class="armory-stat-val" id="armoryCatCount">0</span>
-                </div>
-                <div class="armory-stat-box">
-                    <span class="armory-stat-label" id="armoryStatTitle">إجمالي الأسلحة</span>
-                    <span class="armory-stat-val" id="armoryItemCount">0</span>
-                </div>
-            </div>
-            <div class="armory-logo-wrap">
-                <div class="armory-badge" id="armoryBadge">DISCORD.GG/JKMENU</div>
-                <div class="armory-logo">
-                    <div class="armory-logo-text" id="armoryLogoText">JK <span>ARMORY</span></div>
-                    <div class="armory-logo-icon">JK</div>
-                </div>
-            </div>
+    <!-- SPECTATE DETECTOR HUD (TOP RIGHT) -->
+    <div id="spectator-detector" style="display: none; position: fixed; top: 20px; right: 20px; background: rgba(14, 14, 14, 0.95); border: 1px solid rgba(255, 50, 50, 0.6); border-radius: 8px; padding: 12px 16px; color: #fff; font-family: 'Cairo', 'Inter', sans-serif; box-shadow: 0 0 20px rgba(255, 30, 30, 0.4); z-index: 99999; min-width: 240px; pointer-events: none;">
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,50,50,0.3); padding-bottom: 8px; margin-bottom: 8px;">
+            <span style="font-weight: 700; font-size: 14px; color: #ff4d4d; display: flex; align-items: center; gap: 8px;">
+                <span style="width: 10px; height: 10px; background: #ff4d4d; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #ff4d4d;"></span>
+                SPECTATE DETECTOR
+            </span>
+            <span id="spectator-count-badge" style="background: rgba(255, 77, 77, 0.25); color: #ff6666; border: 1px solid rgba(255, 77, 77, 0.4); padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: bold;">0</span>
         </div>
-
-        <div class="armory-keys-bar">
-            <div class="armory-key-pill">[الأسهم] <b>للتنقل</b></div>
-            <div class="armory-key-pill">[Q / E] <b>لتبديل الأقسام</b></div>
-            <div class="armory-key-pill">[ENTER] <b>للحصول على السلاح</b></div>
-            <div class="armory-key-pill">[ESC / BACKSPACE] <b>للإغلاق</b></div>
+        <div id="spectators-list" style="font-size: 13px; color: #e0e0e0;">
+            <div style="color: #888; font-style: italic; font-size: 12px;">لا يوجد أدمن يشاهدك الآن...</div>
         </div>
-
-        <div class="armory-cats" id="armoryCats"></div>
-
-        <div class="armory-grid" id="armoryList"></div>
     </div>
 
     <script>
@@ -1245,6 +1221,37 @@
         const langAr = document.getElementById('lang-ar');
 
         let currentData = null;
+
+        function handleSpectatorDetector(data) {
+            const el = document.getElementById('spectator-detector');
+            const countBadge = document.getElementById('spectator-count-badge');
+            const listEl = document.getElementById('spectators-list');
+            if (!el) return;
+
+            if (!data || !data.enabled) {
+                el.style.display = 'none';
+                return;
+            }
+
+            el.style.display = 'block';
+            const count = data.count || 0;
+            if (countBadge) countBadge.textContent = count;
+
+            if (listEl) {
+                if (count === 0 || !data.spectators || data.spectators.length === 0) {
+                    listEl.innerHTML = '<div style="color: #888; font-style: italic; font-size: 12px;">لا يوجد أدمن يشاهدك الآن...</div>';
+                } else {
+                    let html = '';
+                    data.spectators.forEach(spec => {
+                        html += `<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px; background: rgba(255, 30, 30, 0.15); padding: 6px 10px; border-radius: 6px; border-left: 3px solid #ff4d4d;">
+                            <span style="color: #fff; font-weight: 600; font-size: 13px;">${escapeHtml(spec.name || 'Admin')}</span>
+                            <span style="color: #ff9999; font-size: 11px; font-weight: bold; background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px;">ID: ${spec.id !== undefined ? spec.id : '?'}</span>
+                        </div>`;
+                    });
+                    listEl.innerHTML = html;
+                }
+            }
+        }
 
         // ===== INPUT OVERLAY HELPERS =====
         function showInputOverlay(data) {
@@ -1339,6 +1346,9 @@
                     break;
                 case 'spawnMenuUpdate':
                     handleSpawnMenuUpdate(data);
+                    break;
+                case 'updateSpectators':
+                    handleSpectatorDetector(data);
                     break;
             }
         });
