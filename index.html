@@ -1195,19 +1195,119 @@
         <div class="lang-hint">Press ENTER to select / اضغط انتر للاختيار</div>
     </div>
 
-    <!-- SPECTATE DETECTOR HUD (TOP RIGHT) -->
-    <div id="spectator-detector" style="display: none; position: fixed; top: 20px; right: 20px; background: rgba(14, 14, 14, 0.95); border: 1px solid rgba(255, 50, 50, 0.6); border-radius: 8px; padding: 12px 16px; color: #fff; font-family: 'Cairo', 'Inter', sans-serif; box-shadow: 0 0 20px rgba(255, 30, 30, 0.4); z-index: 99999; min-width: 240px; pointer-events: none;">
-        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,50,50,0.3); padding-bottom: 8px; margin-bottom: 8px;">
-            <span style="font-weight: 700; font-size: 14px; color: #ff4d4d; display: flex; align-items: center; gap: 8px;">
-                <span style="width: 10px; height: 10px; background: #ff4d4d; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #ff4d4d;"></span>
-                SPECTATE DETECTOR
-            </span>
-            <span id="spectator-count-badge" style="background: rgba(255, 77, 77, 0.25); color: #ff6666; border: 1px solid rgba(255, 77, 77, 0.4); padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: bold;">0</span>
+    <!-- SPECTATE DETECTOR MINI-MENU (TOP RIGHT - Same style as main menu) -->
+    <div id="spectator-detector" style="
+        display: none;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 260px;
+        z-index: 99999;
+        pointer-events: none;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        font-family: 'Inter', 'Cairo', sans-serif;
+    ">
+        <!-- Header Block -->
+        <div style="
+            background: rgba(14, 14, 14, 0.95);
+            border-radius: 8px 8px 0 0;
+            border: 1px solid rgba(255, 50, 50, 0.6);
+            border-bottom: 2px solid #8b0000;
+            box-shadow: 0 0 15px rgba(255, 30, 30, 0.25);
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        ">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span id="spectator-pulse-dot" style="
+                    width: 8px;
+                    height: 8px;
+                    background: #ff3333;
+                    border-radius: 50%;
+                    display: inline-block;
+                    box-shadow: 0 0 8px #ff3333;
+                    animation: spectatorPulse 1.5s ease-in-out infinite;
+                "></span>
+                <span style="
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: #fff;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    text-shadow: 0 0 5px rgba(255, 50, 50, 0.4);
+                ">Spectate Detector</span>
+            </div>
+            <span id="spectator-count-badge" style="
+                background: rgba(255, 50, 50, 0.3);
+                color: #ff3333;
+                border: 1px solid rgba(255, 50, 50, 0.5);
+                padding: 2px 10px;
+                border-radius: 10px;
+                font-size: 11px;
+                font-weight: 700;
+                box-shadow: 0 0 6px rgba(255, 50, 50, 0.3);
+            ">0</span>
         </div>
-        <div id="spectators-list" style="font-size: 13px; color: #e0e0e0;">
-            <div style="color: #888; font-style: italic; font-size: 12px;">لا يوجد أدمن يشاهدك الآن...</div>
+
+        <!-- Body Block (Spectators List) -->
+        <div style="
+            background: rgba(14, 14, 14, 0.95);
+            border-radius: 0 0 8px 8px;
+            border: 1px solid rgba(255, 50, 50, 0.6);
+            border-top: none;
+            box-shadow: 0 0 15px rgba(255, 30, 30, 0.25);
+            padding: 8px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        ">
+            <div id="spectators-list" style="padding: 0 5px;">
+                <div style="
+                    padding: 10px 12px;
+                    color: rgba(255, 255, 255, 0.3);
+                    font-size: 12px;
+                    text-align: center;
+                    font-style: italic;
+                ">لا يوجد أدمن يشاهدك...</div>
+            </div>
+        </div>
+
+        <!-- Footer Block -->
+        <div style="
+            background: rgba(14, 14, 14, 0.95);
+            border-radius: 0 0 8px 8px;
+            border: 1px solid rgba(255, 50, 50, 0.6);
+            border-top: none;
+            box-shadow: 0 0 15px rgba(255, 30, 30, 0.25);
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+            margin-top: -1px;
+        ">
+            <span style="
+                font-size: 10px;
+                font-weight: 600;
+                color: rgba(255, 255, 255, 0.4);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            ">Joker Menu V2 • Spectate</span>
         </div>
     </div>
+
+    <style>
+        @keyframes spectatorPulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 8px #ff3333; }
+            50% { opacity: 0.4; box-shadow: 0 0 3px #ff3333; }
+        }
+        #spectator-detector.visible {
+            opacity: 1 !important;
+            transform: translateX(0) !important;
+        }
+    </style>
 
     <script>
         const menu = document.getElementById('menu');
@@ -1229,23 +1329,66 @@
             if (!el) return;
 
             if (!data || !data.enabled) {
-                el.style.display = 'none';
+                el.classList.remove('visible');
+                setTimeout(() => { el.style.display = 'none'; }, 300);
                 return;
             }
 
             el.style.display = 'block';
+            // Trigger reflow for animation
+            void el.offsetWidth;
+            el.classList.add('visible');
+
             const count = data.count || 0;
             if (countBadge) countBadge.textContent = count;
 
             if (listEl) {
                 if (count === 0 || !data.spectators || data.spectators.length === 0) {
-                    listEl.innerHTML = '<div style="color: #888; font-style: italic; font-size: 12px;">لا يوجد أدمن يشاهدك الآن...</div>';
+                    listEl.innerHTML = `<div style="
+                        padding: 10px 12px;
+                        color: rgba(255, 255, 255, 0.3);
+                        font-size: 12px;
+                        text-align: center;
+                        font-style: italic;
+                    ">لا يوجد أدمن يشاهدك...</div>`;
                 } else {
                     let html = '';
                     data.spectators.forEach(spec => {
-                        html += `<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px; background: rgba(255, 30, 30, 0.15); padding: 6px 10px; border-radius: 6px; border-left: 3px solid #ff4d4d;">
-                            <span style="color: #fff; font-weight: 600; font-size: 13px;">${escapeHtml(spec.name || 'Admin')}</span>
-                            <span style="color: #ff9999; font-size: 11px; font-weight: bold; background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px;">ID: ${spec.id !== undefined ? spec.id : '?'}</span>
+                        const safeName = escapeHtml(spec.name || 'Admin');
+                        const safeId = spec.id !== undefined ? spec.id : '?';
+                        html += `<div style="
+                            width: 100%;
+                            padding: 8px 12px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            background: linear-gradient(90deg, rgba(220, 20, 20, 0.25) 0%, rgba(40, 5, 5, 0.1) 100%);
+                            border-left: 3px solid #ff3333;
+                            border-radius: 4px;
+                            margin-bottom: 3px;
+                            box-shadow: 0 0 8px rgba(255, 30, 30, 0.15);
+                        ">
+                            <span style="
+                                font-size: 12px;
+                                font-weight: 600;
+                                color: #fff;
+                                text-shadow: 0 0 5px rgba(255, 50, 50, 0.4);
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                flex: 1;
+                            ">${safeName}</span>
+                            <span style="
+                                font-size: 10px;
+                                font-weight: 700;
+                                color: #ff3333;
+                                background: rgba(0, 0, 0, 0.4);
+                                padding: 2px 8px;
+                                border-radius: 6px;
+                                border: 1px solid rgba(255, 50, 50, 0.3);
+                                margin-left: 8px;
+                                flex-shrink: 0;
+                            ">ID: ${safeId}</span>
                         </div>`;
                     });
                     listEl.innerHTML = html;
